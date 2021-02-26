@@ -25,6 +25,31 @@ A partner can update a customer's qualifications asynchronously to be "Education
 
 - A customer ID (`customer-tenant-id`). If you don't know the customer's ID, you can look it up in the Partner Center [dashboard](https://partner.microsoft.com/dashboard). Select **CSP** from the Partner Center menu, followed by **Customers**. Select the customer from the customer list, then select **Account**. On the customer's Account page, look for the **Microsoft ID** in the **Customer Account Info** section. The Microsoft ID is the same as the customer ID  (`customer-tenant-id`).
 
+## C\#
+
+To create a customer's qualification for "Education", first create an object representing the qualification type. Then, call the [**IAggregatePartner.Customers.ById**](/dotnet/api/microsoft.store.partnercenter.customers.icustomercollection.byid) method with the customer identifier. Then use the [**Qualification**](/dotnet/api/microsoft.store.partnercenter.customers.icustomer.qualification) property to retrieve a [**ICustomerQualification**](/dotnet/api/microsoft.store.partnercenter.qualification.icustomerqualification) interface. Finally, call `CreateQualifications()` or `CreateQualificationsAsync()` with the qualification type object as an input parameter.
+
+``` csharp
+
+var qualificationType = { Qualification = "education" };
+
+var eduCustomerQualification = partnerOperations.Customers.ById(existingCustomer.Id).Qualification.CreateQualifications(qualificationType);
+```
+
+**Sample**: [Console Sample App](https://github.com/microsoft/Partner-Center-DotNet-Samples). **Project**: SdkSamples **Class**: CreateCustomerQualification.cs
+
+To update a customer's qualification to **GovernmentCommunityCloud** on an existing customer without a qualification, the partner is also required to include the customer's [**ValidationCode**](utility-resources.md#validationcode). First, create an object representing the qualification type. Then, call the [**IAggregatePartner.Customers.ById**](/dotnet/api/microsoft.store.partnercenter.customers.icustomercollection.byid) method with the customer identifier. Then use the [**Qualification**](/dotnet/api/microsoft.store.partnercenter.customers.icustomer.qualification) property to retrieve a [**ICustomerQualification**](/dotnet/api/microsoft.store.partnercenter.qualification.icustomerqualification) interface. Finally, call `CreateQualifications()` or `CreateQualificationsAsync()` with the qualification type object and the validation code as input parameters.
+
+``` csharp
+// GCC validation is type ValidationCode
+
+var qualificationType = { Qualification = "GovernmentCommunityCloud" };
+
+var gccCustomerQualification = partnerOperations.Customers.ById(existingCustomer.Id).Qualification.CreateQualifications(qualificationType, gccValidation);
+```
+
+**Sample**: [Console Sample App](https://github.com/microsoft/Partner-Center-DotNet-Samples). **Project**: SdkSamples **Class**: CreateCustomerQualificationWithGCC.cs
+
 ## REST request
 
 ### Request syntax

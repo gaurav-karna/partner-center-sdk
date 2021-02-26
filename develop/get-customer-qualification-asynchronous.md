@@ -23,6 +23,20 @@ How to get a customer's qualifications asynchronously.
 
 - A customer ID (`customer-tenant-id`). If you don't know the customer's ID, you can look it up in the Partner Center [dashboard](https://partner.microsoft.com/dashboard). Select **CSP** from the Partner Center menu, followed by **Customers**. Select the customer from the customer list, then select **Account**. On the customer’s Account page, look for the **Microsoft ID** in the **Customer Account Info** section. The Microsoft ID is the same as the customer ID  (`customer-tenant-id`).
 
+## C\#
+
+To get a customer's qualifications, call the [**IAggregatePartner.Customers.ById**](/dotnet/api/microsoft.store.partnercenter.customers.icustomercollection.byid) method with the customer identifier. Then use the [**Qualification**](/dotnet/api/microsoft.store.partnercenter.customers.icustomer.qualification) property to retrieve a [**ICustomerQualification**](/dotnet/api/microsoft.store.partnercenter.qualification.icustomerqualification) interface. Finally, call `GetQualifications()` or `GetQualificationsAsync()` to retrieve the customer's qualifications.
+
+``` csharp
+// IAggregatePartner partnerOperations;
+// string customerId;
+
+var customerQualifications = partnerOperations.Customers.ById(customerId).Qualification.GetQualifications();
+```
+
+**Sample**: [Console Sample App](https://github.com/microsoft/Partner-Center-DotNet-Samples). **Project**: SdkSamples **Class**: GetCustomerQualifications.cs
+
+
 ## REST request
 
 ### Request syntax
